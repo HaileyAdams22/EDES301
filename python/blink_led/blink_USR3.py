@@ -59,8 +59,8 @@ try:
         #Wait 0.1 seconds
         time.sleep(0.1)
 except KeyboardInterrupt:
-    GPIO.output(USR3_LED_PIN.LOW)
+    GPIO.output(USR3_LED_PIN, GPIO.LOW)
     GPIO.cleanup()
-    print("Program stopped by user.Turning off LED.")
+    print("Program stopped by user. Turning off LED.")
     
         
