@@ -1,11 +1,14 @@
-from sLED import sLED  # Import the sLED class
+import sys
+sys.path.append('/var/lib/cloud9/EDES301/project_01/light_saber')
+
+from sLED_test2.py import sLED  # Import the sLED class
 import time
 
 if __name__ == '__main__':
     print("sLED Test")
 
     # Define your color values for x, y, and z
-    x = 255  # Red value
+    x = 200  # Red value
     y = 0    # Green value
     z = 0    # Blue value
     color = (x, y, z)  # Create a tuple for the color (RGB)
