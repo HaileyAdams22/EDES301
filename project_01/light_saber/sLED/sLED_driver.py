@@ -3,7 +3,7 @@
 import spidev
 import time
 import random
-from sLED_test2.py import sLED  # Import the sLED class
+from sLED_driver2 import sLED  # Import the sLED class
 
 class DotStar:
     def __init__(self, num_leds, brightness=1.0):
@@ -13,7 +13,7 @@ class DotStar:
 
         # Initialize SPI1 on PocketBeagle
         self.spi = spidev.SpiDev()
-        self.spi.open(1, 0)  # bus 1, device 0 = SPI1 on PocketBeagle
+        self.spi.open(0, 0)  # bus 1, device 0 = SPI1 on PocketBeagle
         self.spi.max_speed_hz = 4000000  # 4 MHz is a safe speed
         self.spi.mode = 0b00
 
@@ -45,6 +45,13 @@ class DotStar:
 
     def close(self):
         self.spi.close()
+        
+        
+    """
+    wheel(self, pos): This function generates a smooth 
+    transition of rainbow colors based on the position (pos), 
+    which is an integer between 0 and 255.
+    """
 
     def wheel(self, pos):
         """Color wheel helper to get rainbow colors."""
@@ -57,6 +64,13 @@ class DotStar:
             pos -= 170
             return (pos * 3, 0, 255 - pos * 3)
 
+
+    """ 
+    rainbow(self, wait_ms=20, iterations=1): 
+    This method creates a rainbow animation that runs for 
+    iterations cycles, with each cycle containing 256 positions.
+    """
+    
     def rainbow(self, wait_ms=20, iterations=1):
         for j in range(256 * iterations):
             for i in range(self.num_leds):
@@ -64,6 +78,16 @@ class DotStar:
                 self.set_pixel_color(i, *self.wheel(pixel_index))
             self.show()
             time.sleep(wait_ms / 1000.0)
+            
+    """
+    flicker(self, base_color=(255, 147, 41), flicker_range=30, duration=5.0, 
+    speed=0.05): This method creates a flicker effect where the 
+    LEDs randomly change colors within a specified range (flicker_range) 
+    around a base color (base_color).
+    
+    'duration' controls how long the flicker lasts
+    'speed' controls how fast the flickering happens
+    """
 
     def flicker(self, base_color=(255, 147, 41), flicker_range=30, duration=5.0, speed=0.05):
         end_time = time.time() + duration
@@ -76,6 +100,15 @@ class DotStar:
                 self.set_pixel_color(i, r, g, b)
             self.show()
             time.sleep(speed)
+            
+    """
+    fade(self, color=(0, 0, 255), steps=50, cycles=3, delay=0.02): 
+    This method creates a fade-in and fade-out effect for a given color (color).
+    
+    'steps' controls how smooth the fade is
+    'cycles' controls how many times the fade effect repeats
+    'delay' controls the speed of the fade
+    """
             
     def fade(self, color=(0, 0, 255), steps=50, cycles=3, delay=0.02):
         r, g, b = color

@@ -1,6 +1,6 @@
 from sLED_driver import DotStar # Import the DotStar class
 import time
-from sLED_test2.py import sLED  # Import the sLED class
+from sLED_driver2 import sLED  # Import the sLED class
 
 strip = DotStar(num_leds=10, brightness=0.5)
 

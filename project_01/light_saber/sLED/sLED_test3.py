@@ -1,7 +1,7 @@
 import sys
 sys.path.append('/var/lib/cloud9/EDES301/project_01/light_saber')
 
-from sLED_test2.py import sLED  # Import the sLED class
+from sLED_driver2 import sLED  # Import the sLED class
 import time
 
 if __name__ == '__main__':

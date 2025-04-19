@@ -3,6 +3,11 @@ import time
 import random  # Import the random module
 
 class sLED:
+    
+#    red = (0, 0, 255)
+#    green = (0, 255, 0)
+#    blue = (0, 0, 255)
+#    white = (255, 255, 255)
 
     def __init__(self, n_leds=60):
         # Open SPI device (bus 1, device 0 = /dev/spidev1.0)
