@@ -46,8 +46,8 @@ config-pin P2_11 i2c
 
 # Button 1 and 2
 echo "Setting up Button pins..."
-config-pin P2_00 gpio
-config-pin P2_00 gpio
+config-pin P2_17 gpio
+config-pin P2_29 gpio
 echo "Setting up Button pins..."
 
 # mLEDs
