@@ -2,7 +2,7 @@ import spidev
 import time
 import random  # Import the random module
 
-class sLED:
+class sLED2:
     
 #    red = (0, 0, 255)
 #    green = (0, 255, 0)

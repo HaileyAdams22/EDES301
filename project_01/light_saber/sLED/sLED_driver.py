@@ -3,7 +3,7 @@
 import spidev
 import time
 import random
-from sLED_driver2 import sLED  # Import the sLED class
+from sLED_driver2 import sLED2  # Import the sLED class
 
 class DotStar:
     def __init__(self, num_leds, brightness=1.0):
@@ -89,7 +89,7 @@ class DotStar:
     'speed' controls how fast the flickering happens
     """
 
-    def flicker(self, base_color=(255, 147, 41), flicker_range=30, duration=5.0, speed=0.05):
+    def flicker2(self, base_color=(255, 147, 41), flicker_range=30, duration=5.0, speed=0.05):
         end_time = time.time() + duration
         r_base, g_base, b_base = base_color
         while time.time() < end_time:
@@ -127,3 +127,36 @@ class DotStar:
                     self.set_pixel_color(j, int(r * brightness), int(g * brightness), int(b * brightness))
                 self.show()
                 time.sleep(delay)
+                
+              
+                
+        """
+        Flickers between full brightness and a dimmer flickered version of the same color.
+        Doesn't go fully dark during pauses.
+        """
+                
+                
+    def unstable_flicker(self, base_color=(0, 0, 255), flicker_range=0.5, duration=10.0, dim_idle=0.2):
+            
+        start_time = time.time()
+        r_base, g_base, b_base = base_color
+
+        while time.time() - start_time < duration:
+            # Flicker burst
+            burst_duration = random.uniform(0.2, 0.6)
+            burst_end = time.time() + burst_duration
+            while time.time() < burst_end:
+                flicker_factor = random.uniform(1.0 - flicker_range, 1.0)
+                for i in range(self.num_leds):
+                    r = int(r_base * flicker_factor)
+                    g = int(g_base * flicker_factor)
+                    b = int(b_base * flicker_factor)
+                    self.set_pixel_color(i, r, g, b)
+                self.show()
+                time.sleep(random.uniform(0.01, 0.05))  # Very fast flicker rate
+
+            # Dim idle glow (instead of turning off)
+            for i in range(self.num_leds):
+                self.set_pixel_color(i, int(r_base * dim_idle), int(g_base * dim_idle), int(b_base * dim_idle))
+            self.show()
+            time.sleep(random.uniform(0.5, 2.0))  # Pause before next flicker burst
