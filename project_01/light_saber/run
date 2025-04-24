@@ -1,0 +1,25 @@
+#!/bin/bash
+# --------------------------------------------------------------------------
+# Light Saber - Run Script
+# --------------------------------------------------------------------------
+# 
+# Run light Saber in /var/lib/cloud9/EDES301/project01/light_saber/light_saber_final
+# 
+# --------------------------------------------------------------------------
+
+cd /var/lib/cloud9/EDES301/project_01/light_saber/light_saber_final
+
+./configure_pins.sh
+
+dirs=(
+    '/var/lib/cloud9/EDES301/project01/light_saber/light_saber_final'
+    '/var/lib/cloud9/EDES301/project01/light_saber/IMU'
+    '/var/lib/cloud9/EDES301/project01/light_saber/JSON'
+    '/var/lib/cloud9/EDES301/project01/light_saber/sLED'
+    '/var/lib/cloud9/EDES301/project01/light_saber'
+    
+)
+
+PYTHONPATH=$(IFS=; echo "${dirs[*]}") python3.11 test.py
+
+

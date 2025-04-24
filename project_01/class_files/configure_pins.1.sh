@@ -1,9 +1,9 @@
 #!/bin/bash
 # --------------------------------------------------------------------------
-# Light Saber - Run Script
+# Combination Lock - Configure Pins
 # --------------------------------------------------------------------------
 # License:   
-# Copyright 2025 Hailey Adams
+# Copyright 2025 - Hailey Adams
 # 
 # Redistribution and use in source and binary forms, with or without 
 # modification, are permitted provided that the following conditions are met:
@@ -31,22 +31,27 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 # --------------------------------------------------------------------------
 # 
-# Run Light Saber in /var/lib/cloud9/EDES301/light_saber
+# Configure pins for Combination Lock:
+#   - I2C1
+#   - Button
+#   - LEDs (Red / Green)
+#   - Servo
 # 
 # --------------------------------------------------------------------------
 
-cd /var/lib/cloud9/EDES301/light_saber
+# I2C1
+config-pin P2_09 i2c
+config-pin P2_11 i2c
 
-./configure_pins.sh
+# Button
+config-pin P2_02 gpio
 
-dirs=(
-    '/var/lib/cloud9/EDES301/python/ht16k33:'
-    '/var/lib/cloud9/EDES301/python/servo:'
-    '/var/lib/cloud9/EDES301/python/button:'
-    '/var/lib/cloud9/EDES301/python/led:'
-    '/var/lib/cloud9/EDES301/python/potentiometer'
-)
+# LEDs
+config-pin P2_04 gpio
+config-pin P2_06 gpio
 
-PYTHONPATH=$(IFS=; echo "${dirs[*]}") python3 light_saber.py
+# Servo
+config-pin P1_36 pwm
 
-##Specify this run dock with the appropriate files in light_saber/
+# Buzzer
+config-pin P2_01 pwm

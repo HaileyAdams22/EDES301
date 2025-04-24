@@ -27,9 +27,10 @@ light_down : animates sLED to turn off from end - UNFINISHED
 
 class Animations:
     
-    def __init__(self, led_strip):
+    def __init__(self, led_strip, flicker_active):
         self.led_strip = led_strip
         self.num_leds = led_strip.num_leds
+        self.flicker_active = flicker_active
 
     # Delegate LED functions to DotStar instance
     def set_pixel_color(self, n, r, g, b):
@@ -41,7 +42,7 @@ class Animations:
     def fill(self, r, g, b):
         self.led_strip.fill(r, g, b)
     
-    def light_up(self, base_color=lambda: (255, 147, 41), speed=0.1):
+    def light_up(self, base_color=lambda: (255, 147, 41), speed=2.0):
         
         
         """
@@ -70,28 +71,24 @@ class Animations:
             # Move the pointers towards the center
             start += 1
             end -= 1
-
-    
-    
+            
     def flicker(self, base_color=lambda: (255, 147, 41), flicker_range=30, speed=0.05, is_active_func=lambda: False):
-        """
-        Flickers LEDs around a base color while `is_active_func()` is True.
-    
-        Parameters:
-        - base_color_func: Function that returns an (R, G, B) tuple.
-        - flicker_range: Int, range of flicker variation.
-        - speed: Float, delay between updates.
-        - is_active_func: Function that returns True if flickering should continue.
-        """
-        while is_active_func():
-            r_base, g_base, b_base = base_color()
-            for i in range(self.num_leds):
-                r = max(0, min(255, r_base + random.randint(-flicker_range, flicker_range)))
-                g = max(0, min(255, g_base + random.randint(-flicker_range, flicker_range)))
-                b = max(0, min(255, b_base + random.randint(-flicker_range, flicker_range)))
-                self.set_pixel_color(i, r, g, b)
-            self.show()
-            time.sleep(speed)
+        self.flicker_active[0] = True  # Signal flicker is starting
+
+        try:
+            while is_active_func():
+                r_base, g_base, b_base = base_color()
+                for i in range(self.num_leds):
+                    if not is_active_func():  # Check again mid-loop for faster stop
+                        break
+                    r = max(0, min(255, r_base + random.randint(-flicker_range, flicker_range)))
+                    g = max(0, min(255, g_base + random.randint(-flicker_range, flicker_range)))
+                    b = max(0, min(255, b_base + random.randint(-flicker_range, flicker_range)))
+                    self.set_pixel_color(i, r, g, b)
+                self.show()
+                time.sleep(speed)
+        finally:
+            self.flicker_active[0] = False  # Reset flicker flag when done
         
     
     def flash(self, base_color=lambda: (255, 147, 41), flash_duration=0.1, flash_speed=0.05):
@@ -119,7 +116,7 @@ class Animations:
         self.fill(r_base, g_base, b_base)
 
     
-    def light_down(self, base_color=lambda: (255, 147, 41), speed=0.1):
+    def light_down(self, base_color=lambda: (255, 147, 41), speed=2.0):
         """
         Powers down the LEDs starting from the middle LED and turning off LEDs towards both ends.
     
