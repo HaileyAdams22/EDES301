@@ -197,7 +197,7 @@ class ThreadedButton(threading.Thread):
         
             # Wait for button press
             #   Execute the unpressed callback function based on the sleep time
-            #
+            
             while(GPIO.input(self.pin) == self.unpressed_value):
             
                 if self.unpressed_callback is not None:
@@ -235,10 +235,6 @@ class ThreadedButton(threading.Thread):
             if self.on_release_callback is not None:
                 self.on_release_callback_value = self.on_release_callback()        
         
-        # Set the flag and press duration to allow the button thread to restart
-        self.stop_button    = False
-        self.press_duration = 0.0
-        
     # End def
 
     
@@ -253,11 +249,9 @@ class ThreadedButton(threading.Thread):
         """ Clean up the button hardware. """
         # Nothing to do for GPIO; stop the thread and wait for completion
         
-        self.stop_button - True
-        print("TBD - Stop the button thread")  # !!! FIX !!! 
-        
-        while (self.stop_button):
-            time.sleep(self.sleep_time)
+        self.stop_button = True
+        self.join()
+        print("TBD - Stop the button thread") 
     
     # End def
     
@@ -332,7 +326,7 @@ if __name__ == '__main__':
     import sys
 
     # Update path to correct directory for LED class     
-    sys.path.append("/var/lib/cloud9/EDES301/python/led")
+    sys.path.append("/var/lib/cloud9/EDES301/project_01/light_saber")
     
     print("Threaded Button Test")
 
@@ -342,10 +336,11 @@ if __name__ == '__main__':
 
     try:
         # Set up the LEDs
-        import led as LED
+        import led_test as mLED
         
-        led_0    = LED.LED("P2_4")
-        led_1    = LED.LED("P2_6")
+        led_0    = mLED.mLED("P2_2")
+        led_1    = mLED.mLED("P2_4")
+        print("Using real LEDs")
 
         # Set up the button callbacks
         button_0.set_on_press_callback(led_0.on)
@@ -356,6 +351,7 @@ if __name__ == '__main__':
         
     except:
         # LEDs not available, use print statements instead
+        print("Falling back to print-only LED simulation:")
         def led_0_on():
             print("LED 0: ON")
         def led_0_off():
@@ -402,4 +398,3 @@ if __name__ == '__main__':
             t.join()
 
     print("Test Complete")
-
