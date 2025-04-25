@@ -1,0 +1,27 @@
+#!/bin/bash
+# --------------------------------------------------------------------------
+# Light Saber - Run Script
+# --------------------------------------------------------------------------
+# 
+# Run light Saber in /var/lib/cloud9/EDES301/project_01/light_saber/light_saber_final
+# 
+# --------------------------------------------------------------------------
+echo "Waiting 10s before starting light saber..." >> /var/log/light_saber.log
+sleep 10
+
+cd /var/lib/cloud9/EDES301/project_01/light_saber/light_saber_final
+
+# Ensure pins are configured first
+/var/lib/cloud9/EDES301/project_01/light_saber/light_saber_final/configure_pins.sh
+
+# Set directories to include
+dirs=(
+    '/var/lib/cloud9/EDES301/project_01/light_saber/light_saber_final'
+    '/var/lib/cloud9/EDES301/project_01/light_saber/IMU'
+    '/var/lib/cloud9/EDES301/project_01/light_saber/JSON'
+    '/var/lib/cloud9/EDES301/project_01/light_saber/sLED'
+    '/var/lib/cloud9/EDES301/project_01/light_saber'
+)
+
+# Set the PYTHONPATH and run the script
+PYTHONPATH=$(IFS=:; echo "${dirs[*]}") python3.11 test.py

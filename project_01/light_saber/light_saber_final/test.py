@@ -23,7 +23,7 @@ flicker_active = [False]
 # -----------------------------
 # sLED and animation setup
 # -----------------------------
-sLED = DotStar(num_leds=30, brightness=0.8)
+sLED = DotStar(num_leds=108, brightness=0.8)
 sLED.clear()
 led_colors = [
     (0, 0, 255),
