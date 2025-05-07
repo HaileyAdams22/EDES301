@@ -10,4 +10,4 @@ The mecanical block diagram can be used for understanding the measurements of th
 
 This PCB was designed with the help and direction of Erik Welsh.
 
-The EAGLE folder contains the library, schematic, and layout files for Eagle as well as all gerber files. The DOCS folder contains some screenshots as well as some background info
+The EAGLE folder contains the library, schematic, and layout files for Eagle as well as all gerber files. The DOCS folder contains some screenshots as well as some background info.
